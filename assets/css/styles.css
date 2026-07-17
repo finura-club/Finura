@@ -1,0 +1,734 @@
+/* ==========================================================================
+   Finura* - Sistema de Diseño y Estilos para Feed de Concreto
+   ========================================================================== */
+
+:root {
+  /* Paleta de Colores Minimalista y Textura de Concreto (Fondo Blanco Uniforme) */
+  --bg-color: #ffffff; 
+  --bg-darker: #ffffff;
+  --text-primary: #000000;
+  --text-secondary: #515154;
+  --accent-color: #000000;
+  --border-color: rgba(0, 0, 0, 0.08);
+  --border-color-active: rgba(0, 0, 0, 0.6);
+  
+  /* Fuentes */
+  --font-display: 'Outfit', sans-serif;
+  --font-body: 'Inter', sans-serif;
+  
+  /* Transiciones Premium */
+  --transition-smooth: all 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+  --transition-fast: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+/* Reset de Estilos */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+  background-color: var(--bg-color);
+  color: var(--text-primary);
+  font-family: var(--font-body);
+  -webkit-font-smoothing: antialiased;
+}
+
+body {
+  overflow-x: hidden;
+  background-color: var(--bg-color);
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+button {
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-family: inherit;
+  color: inherit;
+}
+
+/* Scrollbar Personalizado */
+::-webkit-scrollbar {
+  width: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--bg-color);
+}
+
+::-webkit-scrollbar-thumb {
+  background: rgba(0, 0, 0, 0.3);
+  border-radius: 3px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(0, 0, 0, 0.5);
+}
+
+/* ==========================================================================
+   Cabecera Fija (Logotipo Grande y Centrado)
+   ========================================================================== */
+
+.main-header {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 85px; /* Altura uniforme para evitar saltos de layout */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 100;
+  pointer-events: none;
+  transition: var(--transition-smooth);
+  background-color: transparent; /* Totalmente transparente al inicio en Intro */
+  border-bottom: 1px solid transparent;
+}
+
+.header-logo-link {
+  pointer-events: auto;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-decoration: none;
+}
+
+.main-logo-small {
+  height: 40px; /* Tamaño elegante y legible */
+  max-width: 320px;
+  object-fit: contain;
+  opacity: 0; /* Oculto en la sección de Intro para evitar duplicidad */
+  transform: translateY(-10px);
+  pointer-events: none;
+  transition: opacity var(--transition-smooth), transform var(--transition-smooth), height var(--transition-smooth);
+}
+
+.main-header.scrolled {
+  background-color: #ffffff; /* Fondo blanco sólido 100% que aparece al hacer scroll */
+  border-bottom: 1px solid var(--border-color);
+}
+
+.main-header.scrolled .main-logo-small {
+  opacity: 1; /* Aparece fluidamente */
+  transform: translateY(0);
+  pointer-events: auto;
+}
+
+/* ==========================================================================
+   Botón Fijo Flotante a Instagram MD
+   ========================================================================== */
+
+.instagram-float {
+  position: fixed;
+  bottom: 40px;
+  right: 40px;
+  z-index: 99;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  background-color: #000000;
+  color: #ffffff;
+  padding: 14px 28px;
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.15em;
+  border-radius: 0;
+  border: 1px solid #000000;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+  text-transform: uppercase;
+  
+  /* Oculto inicialmente al cargar en la sección Intro */
+  opacity: 0;
+  pointer-events: none;
+  transform: translateY(20px);
+  transition: opacity var(--transition-smooth), transform var(--transition-smooth), background-color var(--transition-fast), color var(--transition-fast), border-color var(--transition-fast);
+}
+
+.instagram-float.visible {
+  opacity: 1;
+  pointer-events: auto;
+  transform: translateY(0);
+}
+
+.instagram-float.visible:hover {
+  background-color: #ffffff;
+  color: #000000;
+  border-color: #000000;
+  transform: translateY(-4px);
+}
+
+.instagram-icon {
+  stroke: #ffffff;
+  transition: var(--transition-fast);
+}
+
+.instagram-float:hover .instagram-icon {
+  stroke: #000000;
+}
+
+/* ==========================================================================
+   Indicador Lateral Minimalista
+   ========================================================================== */
+
+.section-indicator {
+  position: fixed;
+  left: 40px;
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 99;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  font-family: var(--font-display);
+  font-size: 10px;
+  letter-spacing: 0.25em;
+  font-weight: 500;
+  color: var(--text-secondary);
+  writing-mode: vertical-rl;
+  text-transform: uppercase;
+  mix-blend-mode: difference; /* Se adapta automáticamente sobre blanco y negro */
+}
+
+#indicator-active {
+  color: #ffffff;
+  font-weight: 700;
+  transition: var(--transition-fast);
+}
+
+/* ==========================================================================
+   Feed de Playeras (Layout Lineal Vertical)
+   ========================================================================== */
+
+.feed-container {
+  width: 100%;
+}
+
+.feed-section {
+  position: relative;
+  width: 100%;
+  height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  background-color: var(--bg-color);
+  border-bottom: 1px solid var(--border-color);
+}
+
+/* Envoltura de Imagen para centrado perfecto */
+.image-wrapper {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.feed-img {
+  width: 100%;
+  height: 100%;
+  max-height: 80vh; /* Deja espacio elegante arriba y abajo */
+  max-width: 90vw;  /* Evita que se corte en los laterales */
+  object-fit: contain; /* Muestra la playera completa sin recortar */
+  filter: brightness(1.10) contrast(1.01) saturate(1.01); /* Brillo sutil y natural para evitar cualquier sobreexposición en zonas claras */
+  
+  /* Máscara de desvanecimiento radial para que el concreto de la foto 
+     se funda invisiblemente con el fondo gris concreto del sitio */
+  -webkit-mask-image: radial-gradient(circle, rgba(0,0,0,1) 55%, rgba(0,0,0,0) 82%);
+  mask-image: radial-gradient(circle, rgba(0,0,0,1) 55%, rgba(0,0,0,0) 82%);
+  
+  transition: transform 1.2s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.hero-logo-img {
+  max-height: 48vh; /* Regresamos a contain para que se aprecie completo y monumental */
+  max-width: 75vw;
+  object-fit: contain;
+  transition: transform 1.2s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+/* Efecto parallax sutil en zoom al pasar la sección */
+.feed-section.active-section .feed-img,
+.feed-section.active-section .hero-logo-img {
+  transform: scale(1.04);
+}
+
+/* ==========================================================================
+   Sobrelayer (Textos en las secciones)
+   ========================================================================== */
+
+/* Hero Section */
+.hero-section {
+  background-color: var(--bg-darker);
+}
+
+.hero-overlay {
+  position: absolute;
+  bottom: 8vh;
+  left: 0;
+  width: 100%;
+  text-align: center;
+  z-index: 10;
+  padding: 0 24px;
+}
+
+.hero-subtitle {
+  font-family: var(--font-display);
+  font-size: 12px;
+  font-weight: 500;
+  letter-spacing: 0.3em;
+  color: var(--text-secondary);
+  margin-bottom: 16px;
+  text-transform: uppercase;
+}
+
+.hero-tagline {
+  font-size: clamp(14px, 2vw, 18px);
+  font-weight: 300;
+  max-width: 500px;
+  margin: 0 auto 36px;
+  line-height: 1.6;
+  color: #000000;
+}
+
+.scroll-prompt {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+}
+
+.scroll-prompt span {
+  font-size: 9px;
+  letter-spacing: 0.2em;
+  color: var(--text-secondary);
+  font-weight: 500;
+}
+
+.prompt-line {
+  width: 1px;
+  height: 50px;
+  background: linear-gradient(to bottom, var(--text-secondary), transparent);
+  position: relative;
+  overflow: hidden;
+}
+
+.prompt-line::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 15px;
+  background-color: #000000;
+  animation: scroll-anim 2s cubic-bezier(0.16, 1, 0.3, 1) infinite;
+}
+
+/* Product Controls (Opción B Interactiva) */
+.product-controls {
+  position: absolute;
+  right: 6%;
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 10;
+  display: flex;
+  flex-direction: column;
+  gap: 36px;
+  text-align: left;
+  max-width: 320px;
+  background-color: rgba(255, 255, 255, 0.7);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  padding: 32px;
+  border: 1px solid var(--border-color);
+}
+
+.product-info-top {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.product-code {
+  font-family: monospace;
+  font-size: 11px;
+  letter-spacing: 0.1em;
+  color: var(--text-secondary);
+}
+
+.product-title-main {
+  font-family: var(--font-display);
+  font-size: 18px;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  color: #000000;
+  line-height: 1.4;
+}
+
+.product-selectors {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+.selector-item {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.selector-label {
+  font-size: 9px;
+  letter-spacing: 0.15em;
+  color: var(--text-secondary);
+  font-weight: 600;
+}
+
+.color-options {
+  display: flex;
+  gap: 12px;
+}
+
+.color-btn {
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  cursor: pointer;
+  border: 1px solid rgba(0, 0, 0, 0.15);
+  position: relative;
+  transition: transform 0.2s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.2s;
+  padding: 0;
+  outline: none;
+}
+
+.color-btn:hover {
+  transform: scale(1.1);
+}
+
+.color-btn.active {
+  box-shadow: 0 0 0 2px #ffffff, 0 0 0 4px #000000;
+  transform: scale(1.05);
+}
+
+.view-toggle-btn {
+  font-family: inherit;
+  font-size: 10px;
+  letter-spacing: 0.15em;
+  font-weight: 600;
+  cursor: pointer;
+  text-transform: uppercase;
+  padding: 8px 0;
+  border: none;
+  background: none;
+  color: #000000;
+  text-align: left;
+  transition: color var(--transition-fast);
+  outline: none;
+}
+
+/* Detalles Técnicos de Empaque */
+.packaging-details {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.spec-detail-item {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.spec-detail-label {
+  font-family: monospace;
+  font-size: 9px;
+  font-weight: 700;
+  color: #000000;
+  letter-spacing: 0.1em;
+}
+
+.spec-detail-text {
+  font-size: 10px;
+  line-height: 1.5;
+  color: var(--text-secondary);
+  font-weight: 400;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  margin: 0;
+}
+
+.view-toggle-btn:hover {
+  color: var(--text-secondary);
+}
+
+/* ==========================================================================
+   Footer Minimalista
+   ========================================================================== */
+
+.footer-minimal {
+  background-color: var(--bg-darker);
+  border-top: 1px solid var(--border-color);
+  padding: 100px 40px 60px;
+  text-align: center;
+  position: relative;
+  z-index: 10;
+}
+
+.footer-minimal-content {
+  max-width: 600px;
+  margin: 0 auto;
+}
+
+/* Guía de Tallas Minimalista */
+.size-guide-container {
+  width: 100%;
+  max-width: 600px; /* Alineado al max-width de las imágenes y controles */
+  margin: 0 auto 80px auto;
+  text-align: left;
+}
+
+.size-guide-title {
+  font-family: monospace;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.15em;
+  color: #000000;
+  margin-bottom: 24px;
+  text-transform: uppercase;
+}
+
+.size-guide-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-bottom: 16px;
+}
+
+.size-guide-table th,
+.size-guide-table td {
+  border: 1px solid #E5E5E5;
+  padding: 12px 16px;
+  font-size: 10px;
+  letter-spacing: 0.08em;
+  text-align: center;
+}
+
+.size-guide-table th {
+  font-family: monospace;
+  font-weight: 700;
+  background-color: #fcfcfc;
+  color: #000000;
+}
+
+.size-guide-table td {
+  font-weight: 400;
+  color: var(--text-secondary);
+}
+
+.size-guide-note {
+  font-size: 9px;
+  line-height: 1.5;
+  color: var(--text-secondary);
+  font-weight: 400;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  margin: 0;
+}
+
+.footer-logo {
+  height: 60px; /* Tamaño adaptado e imponente para el footer minimalista */
+  max-width: 320px;
+  object-fit: contain;
+  margin-bottom: 24px;
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.footer-text {
+  font-size: 11px;
+  color: var(--text-secondary);
+  margin-bottom: 12px;
+  font-weight: 400;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.footer-contact {
+  font-size: 11px;
+  line-height: 1.6;
+  color: var(--text-secondary);
+  margin-bottom: 32px;
+  font-weight: 400;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.footer-copy {
+  margin-top: 80px;
+  border-top: 1px solid var(--border-color);
+  padding-top: 30px;
+  text-align: center;
+}
+
+.footer-copy-meta {
+  font-family: monospace;
+  font-size: 11px;
+  font-weight: 700;
+  color: #000000;
+  letter-spacing: 0.1em;
+  margin-bottom: 6px;
+}
+
+.footer-copy-manifest {
+  font-size: 11px;
+  color: var(--text-secondary);
+  font-weight: 400;
+  letter-spacing: 0.08em;
+  margin-bottom: 24px;
+}
+
+.footer-copy-shipping {
+  font-size: 11px;
+  color: #000000;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  margin-bottom: 12px; /* Margen ligero para que respire antes del copyright */
+}
+
+.footer-copy-rights {
+  font-size: 11px;
+  color: var(--text-secondary);
+  font-weight: 400;
+  letter-spacing: 0.05em;
+  margin: 0;
+}
+
+/* ==========================================================================
+   Animaciones Especiales y Media Queries
+   ========================================================================== */
+
+@keyframes scroll-anim {
+  0% {
+    top: -15px;
+  }
+  50%, 100% {
+    top: 50px;
+  }
+}
+
+@media (max-width: 1024px) {
+  .main-header {
+    height: 140px;
+  }
+  
+  .main-logo {
+    height: 65px;
+  }
+  
+  .main-header.scrolled {
+    height: 80px;
+  }
+  
+  .main-header.scrolled .main-logo {
+    height: 38px;
+  }
+
+  .instagram-float {
+    bottom: 24px;
+    right: 24px;
+    padding: 12px 20px;
+    font-size: 10px;
+  }
+
+  .section-indicator {
+    display: none; /* Ocultar indicador en pantallas medianas/pequeñas */
+  }
+
+  .product-controls {
+    position: absolute;
+    left: 50%;
+    bottom: 24px;
+    top: auto;
+    right: auto;
+    transform: translateX(-50%);
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    width: 90%;
+    max-width: 500px;
+    padding: 16px 24px;
+    gap: 16px;
+  }
+  .product-info-top {
+    gap: 2px;
+  }
+  .product-title-main {
+    font-size: 13px;
+  }
+  .product-selectors {
+    flex-direction: row;
+    align-items: center;
+    gap: 20px;
+  }
+  .selector-item {
+    flex-direction: row;
+    align-items: center;
+    gap: 8px;
+  }
+  .selector-label {
+    display: none; /* Ahorra espacio en tablet */
+  }
+}
+
+@media (max-width: 600px) {
+  .main-header {
+    height: 110px;
+  }
+  
+  .main-logo {
+    height: 48px;
+  }
+  
+  .main-header.scrolled {
+    height: 70px;
+  }
+  
+  .main-header.scrolled .main-logo {
+    height: 32px;
+  }
+
+  .instagram-float .instagram-text {
+    display: none; /* En móviles muy pequeños, solo mostramos el icono */
+  }
+
+  .instagram-float {
+    padding: 12px;
+    border-radius: 50%;
+  }
+
+  .product-controls {
+    flex-direction: column;
+    gap: 12px;
+    padding: 12px 16px;
+    bottom: 16px;
+    width: 92%;
+    align-items: center;
+  }
+  .product-selectors {
+    width: 100%;
+    justify-content: space-between;
+    gap: 10px;
+  }
+
+
+  .footer-minimal {
+    padding: 60px 20px 40px;
+  }
+}
